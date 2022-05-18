@@ -15,7 +15,6 @@
       $('.card').on('touchstart mousedown',onDown);
 
       function onDown(e){
-        e.preventDefault();
         ox = 0;
         dragX = wasX = e.pageX;
         $('body').on('touchmove mousemove',onMove);
@@ -34,7 +33,6 @@
       }
 
       function onDrop(e){
-        e.preventDefault();
         $('body').off('touchmove mousemove',onMove);
         $('body').off('touchend mouseup',onDrop);
 
