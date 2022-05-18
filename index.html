@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Magic Beans</title>
+  <script type="text/javascript" src='./jq.js'></script>
+  <script type="text/javascript">
+    $(function(){
+       
+      var dragX = 0;
+      var wasX = 0;
+      var ox = 0;
+      $('.card').on('mousedown',onDown);
+
+      function onDown(e){
+        ox = 0;
+        dragX = wasX = e.pageX;
+        $('body').on('mousemove',onMove);
+        $('body').on('mouseup',onDrop);
+      }
+
+      function onMove(e){
+        ox = e.pageX-dragX;
+        wasX = e.pageX;
+        redraw();
+      }
+
+      function redraw(){
+        $('.card').last().css({left:ox,transform:'rotate('+ox/50+'deg)'})
+      }
+
+      function onDrop(e){
+        $('body').off('mousemove',onMove);
+        $('body').off('mouseup',onDrop);
+
+        if(ox>100){
+          $({ox:ox}).animate({ox:550},{duration:200,step:onStep,complete:onDie})
+        } else if(ox < -100){
+          $({ox:ox}).animate({ox:-550},{duration:200,step:onStep,complete:onDie})
+        } else {
+          $({ox:ox}).animate({ox:0},{duration:200,step:onStep,complete:onReset})
+        }
+      }
+
+      function onStep(n){
+        ox = n;
+        redraw();
+      }
+
+      function onDie(){
+        $('.card').last().remove();
+      }
+
+      function onReset(){
+
+      }
+
+      $('button').click(function(){
+        $(this).closest('.flippable').toggleClass('flipped');
+      });
+    })
+   
+
+    
+  </script>
+  <style type="text/css">
+    @import url('https://fonts.googleapis.com/css2?family=Macondo&family=Quicksand:wght@300&display=swap');
+
+    body{
+      background: #99bb99;
+      margin: 0px;
+      padding: 0px;
+      font-family: 'Quicksand', sans-serif;
+      background: url('./gold.jpeg');
+      background-size: cover;
+    }
+
+    h1{
+
+      font-family: 'Macondo', cursive;
+      margin: 0px;
+    }
+
+    p{
+    }
+
+    .deck{
+      width: 400px;
+      height: calc(100vh - 50px);
+      margin: auto;
+      position: relative;
+      top: 25px;
+    }
+
+    .card{
+      
+      width: 100%;
+      height: 100%;
+      position: absolute;
+     
+      left: 0px;
+      perspective: 1000px;
+      line-height: 2;
+
+    }
+
+
+
+    button{
+      border: 1px solid #999;
+      font: inherit;
+      padding: 20px;
+      background: none;
+      border-radius: 10px;
+      color: #999;
+    }
+
+    .flippable{
+      transition: transform 0.8s;
+      transform-style: preserve-3d;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+    }
+
+    .flippable.flipped{
+      transform: rotateY(180deg);
+    }
+
+
+
+    .card-back, .card-front{
+      -webkit-backface-visibility: hidden; /* Safari */
+      backface-visibility: hidden;
+
+      background: white;
+      border-radius: 15px;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      display: flex;
+      justify-content: space-between;
+      flex-direction: column;
+      padding: 30px;
+      box-sizing: border-box;
+      border: 1px solid rgba(0,0,0,0.2);
+    }
+
+    .card-back{
+      transform: rotateY(180deg);
+      background: #333;
+      color: #eee;
+    }
+
+
+
+  </style>
+</head>
+<body>
+  <div class="deck">
+    <div class="card">
+      <div class="flippable">
+        <div class="card-front">
+          <div>
+            <h1>A slow farewell</h1>
+            <p>You visit your old home town, and have a drink with an old friend. You share stories, and laugh at the wild adolescence you shared. You are excited to relive old times. And yet, there is a sense of loss. A realisation that all these connections have disappeared, and you’re not even sure when it happened</p>
+            
+            <p><i>You seek to honour the loss.</i></p>
+          </div>
+          <button>What do you do?</button>
+        </div>
+        <div class="card-back">
+          <div>
+            <h1>Funeral for a friend</h1>
+            <p>It's never too late to grieve the loss of a friend, a place, or a time of life. Losing connection to things that we love is an invitation to honour the gifts of the past, and let go with grace.</p>
+            <ol>
+              <li>Take a dried leaf and draw a symbol that represents the memory.</li>
+              <li>Look at it for a moment and allow your mind to be pulled back into the experience of that time.</li>
+              <li>Now let go of the stories and just look at the symbol you've drawn.</li>
+              <li>Let the leaf fall into a natural place. A river, in the wind, wherever.</li>
+              <li>Trust that the leaf will find its own way, and that you don't have to hold it any more.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="flippable">
+        <div class="card-front">
+          <div>
+            <h1>A bad dream</h1>
+            <p>You awake from a dream. Your heart thuds as you feel the sweat along your back. Shocked awake by images of pain. A detailed eruption of grief. A story now confused and fading in the dull morning light.</p>
+            
+            <p><i>You seek to honour this moment.</i></p>
+          </div>
+          <button>What do you do?</button>
+        </div>
+        <div class="card-back">
+          <div>
+            <h1>Alchemize that shit!</h1>
+            <p>It takes a moment to sever our ties to the dream world. In the lucid moments just after waking, sit for a moment in contemplation, and practice the following:</p>
+            <ol>
+              <li>Allow the images and emotions to replay in your mind.</li>
+              <li>Light a candle in honour of the wisdom of the subconscious mind.</li>
+              <li>Write down any dream events, images, or emotions.</li>
+              <li>Reflect on these experiences as gateways to self-understanding.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-front" style="justify-content: center;align-items: center;">
+        <img style='width:100px' src="./bean.png">
+        <h1>Magic Beans</h1>
+        <p>Swipe me →</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
