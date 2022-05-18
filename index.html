@@ -1,7 +1,9 @@
 <!DOCTYPE html>
+<meta name="viewport" content="width=450, initial-scale=1">
 <html>
 <head>
   <title>Magic Beans</title>
+
   <script type="text/javascript" src='./jq.js'></script>
   <script type="text/javascript">
     $(function(){
@@ -9,13 +11,13 @@
       var dragX = 0;
       var wasX = 0;
       var ox = 0;
-      $('.card').on('mousedown',onDown);
+      $('.card').on('touchstart mousedown',onDown);
 
       function onDown(e){
         ox = 0;
         dragX = wasX = e.pageX;
-        $('body').on('mousemove',onMove);
-        $('body').on('mouseup',onDrop);
+        $('body').on('touchmove mousemove',onMove);
+        $('body').on('touchend mouseup',onDrop);
       }
 
       function onMove(e){
@@ -29,8 +31,8 @@
       }
 
       function onDrop(e){
-        $('body').off('mousemove',onMove);
-        $('body').off('mouseup',onDrop);
+        $('body').off('touchmove mousemove',onMove);
+        $('body').off('touchend mouseup',onDrop);
 
         if(ox>100){
           $({ox:ox}).animate({ox:550},{duration:200,step:onStep,complete:onDie})
